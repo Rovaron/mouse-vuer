@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Mouse-vuer</title>
+  <link rel="stylesheet" href="mouse-vuer.css">
+</head>
+
+<body>
+  <button id="record">record</button>
+  <button id="stop">stop recording</button>
+  <button id="play">play</button>
+  <button id="pause">pause</button>
+  <input id="duration" type="range" min="0" step="1" value="0" max="100"/>
+  <div class="editor">
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ultricies lacus nec eros porttitor pulvinar sit amet id libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla consequat sed tellus at euismod. Donec mollis semper velit at auctor. Fusce gravida diam a elit dignissim consectetur. Donec ac libero at nibh eleifend venenatis eu eu lectus. Sed imperdiet et lorem quis faucibus. Suspendisse ut facilisis velit. Aliquam eu bibendum mauris. Maecenas tristique eu diam volutpat tincidunt. Praesent condimentum eros nisl, nec aliquet metus pretium sed. Maecenas vel neque quis libero porta semper. Mauris posuere posuere gravida. In aliquet orci ut viverra pellentesque.
+      
+      Curabitur eleifend, eros sed tempor pulvinar, ipsum ante suscipit magna, in convallis urna mi et magna. Vivamus fringilla est at gravida tincidunt. Nulla a sagittis ante. Suspendisse egestas, odio id semper posuere, nisi felis tempor dui, quis suscipit odio ante vel elit. Quisque feugiat lacus felis, id molestie arcu mollis eu. Pellentesque vel tellus erat. Ut vehicula a ipsum sit amet sodales. Phasellus venenatis est sapien, et iaculis dui euismod id.
+      
+      Sed diam felis, lacinia sed lacinia a, aliquet nec nunc. Curabitur ac felis vel metus hendrerit facilisis at sed orci. Maecenas eleifend, mauris vestibulum ornare auctor, dolor ante varius nulla, vel imperdiet odio velit ut libero. Maecenas aliquam risus ac massa ornare vulputate. Donec pulvinar convallis ipsum, sit amet tempus eros dictum dapibus. Ut pretium fermentum justo. Vivamus purus nisi, viverra rhoncus vulputate ac, posuere ut metus. Etiam quis finibus risus, elementum mollis metus. Vestibulum ullamcorper massa id nisi egestas placerat in at tortor. Nullam volutpat risus a odio venenatis, a ultrices sem suscipit. Donec ac molestie tellus. Nulla sodales cursus eros, non volutpat purus congue in. Nam efficitur scelerisque lacus non iaculis. Pellentesque vestibulum ultricies magna sed tempor. Fusce sit amet felis vulputate, dictum magna eget, viverra massa. Nunc condimentum, nibh id efficitur blandit, nisl tortor congue magna, vitae pretium erat arcu ac lorem.
+      
+      Morbi ac ligula sit amet ipsum facilisis dictum nec quis arcu. Curabitur et arcu a enim fringilla luctus nec vel augue. Etiam nec purus et neque rutrum bibendum sed sed ipsum. Nullam vel interdum orci. Nunc finibus ligula vel mi ullamcorper efficitur. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras elit nibh, fringilla eu mi semper, commodo laoreet dui. Nullam leo arcu, iaculis eu nisi ut, maximus auctor arcu.
+      
+      Curabitur aliquam sapien vel enim pharetra, ac tempor orci faucibus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras at neque neque. Ut luctus turpis nec ex viverra ullamcorper. Nunc placerat ex ut pharetra consequat. Nunc ac congue augue. Donec eget lacus placerat, semper purus vitae, interdum nibh.</p>
+  </div>
+  
+  <script src="anime.min.js"></script>
+  <script src="emitter.js"></script>
+  <script src="mouse-vuer.js"></script>
+  <script>
+    const mouseT = new MouseTracker()
+    document.getElementById('record').addEventListener('click', function () {
+      mouseT.startRecording()
+    })
+
+    document.getElementById('stop').addEventListener('click', function () {
+      mouseT.stopRecording()
+      const movieDuration = mouseT.recordDuration()
+      document.getElementById('duration').style.visibility = 'visible'
+    })
+
+    document.getElementById('play').addEventListener('click', function () {
+      mouseT.play()
+    })
+
+    document.getElementById('pause').addEventListener('click', function () {
+      mouseT.pause()
+    })
+
+    document.getElementById('duration').addEventListener('input', function (event) {
+      mouseT.recordSeekTo(event.srcElement.value)
+    })
+
+    mouseT.on('currentTimeChanged', function (mouseVuer){
+      if (mouseVuer.state === 'playing') {
+        document.getElementById('duration').value = mouseVuer.progress
+      }
+    })
+  </script>
+</body>
+
+</html>
